@@ -21,7 +21,6 @@ abstract class DownloadManifest @Inject constructor(objects: ObjectFactory) : De
 
     init {
         this.versionManifestFile.convention { temporaryDir.resolve("version_manifest_v2.json") }
-        this.outputs.upToDateWhen { !project.gradle.startParameter.isOffline }
     }
 
     @TaskAction

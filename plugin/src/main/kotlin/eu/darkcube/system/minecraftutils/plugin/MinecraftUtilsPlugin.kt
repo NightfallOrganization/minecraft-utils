@@ -9,7 +9,9 @@ import org.gradle.kotlin.dsl.register
 
 class MinecraftUtilsPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        val downloadMinecraftManifest = project.tasks.register<DownloadManifest>("downloadMinecraftManifest")
+        val downloadMinecraftManifest = project.tasks.register<DownloadManifest>("downloadMinecraftManifest") {
+            outputs.upToDateWhen { project.gradle.startParameter.isOffline }
+        }
         val downloadMinecraftClientJar = project.tasks.register<DownloadClient>("downloadMinecraftClientJar") {
             dependsOn(downloadMinecraftManifest)
             versionManifestFile.convention(downloadMinecraftManifest.get().versionManifestFile)

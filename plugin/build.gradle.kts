@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "eu.darkcube.system"
-version = "1.0.0"
+version = properties["version"].toString()
 
 kotlin {
     jvmToolchain(8)

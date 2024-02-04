@@ -21,6 +21,7 @@ abstract class DownloadManifest @Inject constructor(objects: ObjectFactory) : De
 
     init {
         this.versionManifestFile.convention { temporaryDir.resolve("version_manifest_v2.json") }
+        this.outputs.upToDateWhen { false }
     }
 
     @TaskAction
@@ -30,7 +31,8 @@ abstract class DownloadManifest @Inject constructor(objects: ObjectFactory) : De
         val connection = url.openConnection()
         val file = versionManifestFile.get()
 
-        val json = Gson().fromJson(connection.getInputStream().bufferedReader().use { it.readText() }, JsonObject::class.java)
+        val json =
+            Gson().fromJson(connection.getInputStream().bufferedReader().use { it.readText() }, JsonObject::class.java)
         val data = GsonBuilder().setPrettyPrinting().create().toJson(json)
         file.asFile.outputStream().bufferedWriter().use {
             it.write(data)
